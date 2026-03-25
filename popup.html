@@ -2,144 +2,188 @@
 <html>
 <head>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap');
+
         :root {
-            --bg: #020617;
-            --card: #1e293b;
+            --bg: #030712;
             --accent: #38bdf8;
-            --text-main: #f8fafc;
-            --text-dim: #94a3b8;
+            --accent-glow: rgba(56, 189, 248, 0.3);
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
         }
+
         body {
-            width: 260px;
+            width: 280px;
             margin: 0;
-            padding: 20px;
+            padding: 24px;
             background-color: var(--bg);
-            color: var(--text-main);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            border: 1px solid rgba(56, 189, 248, 0.2);
+            color: #f8fafc;
+            font-family: 'Space Grotesk', sans-serif;
+            overflow: hidden;
+            border: 1px solid var(--border);
         }
+
+        /* Animated Background Glow */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: var(--accent);
+            filter: blur(80px);
+            opacity: 0.15;
+            z-index: -1;
+        }
+
         .header {
-            text-align: left;
-            margin-bottom: 24px;
-            border-left: 4px solid var(--accent);
-            padding-left: 12px;
+            margin-bottom: 28px;
         }
+
         .header h2 {
             margin: 0;
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            color: var(--text-main);
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            background: linear-gradient(to right, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .header p {
-            margin: 4px 0 0 0;
-            font-size: 0.75rem;
-            color: var(--accent);
+
+        .tagline {
+            font-size: 0.65rem;
             text-transform: uppercase;
-            font-weight: 600;
+            letter-spacing: 2px;
+            color: var(--accent);
+            font-weight: 500;
+            margin-top: 4px;
         }
-        .description {
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            line-height: 1.5;
+
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px;
             margin-bottom: 24px;
+            transition: all 0.3s ease;
         }
-        .toggle-container {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 14px;
-            border-radius: 12px;
+
+        .card:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+        }
+
+        .toggle-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
-            transition: 0.3s;
         }
-        .toggle-container:hover {
-            background: rgba(255, 255, 255, 0.06);
-        }
-        .toggle-label {
-            font-weight: 500;
+
+        .status-text {
             font-size: 0.9rem;
+            font-weight: 500;
         }
+
+        /* Modernized Switch */
         .switch {
             position: relative;
-            display: inline-block;
-            width: 42px;
-            height: 22px;
+            width: 50px;
+            height: 26px;
         }
+
         .switch input { opacity: 0; width: 0; height: 0; }
+
         .slider {
             position: absolute;
             cursor: pointer;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #334155;
-            transition: .3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 34px;
+            background-color: #1e293b;
+            transition: .4s cubic-bezier(0.18, 0.89, 0.35, 1.15);
+            border-radius: 30px;
+            border: 1px solid var(--border);
         }
+
         .slider:before {
             position: absolute;
             content: "";
-            height: 16px; width: 16px;
-            left: 3px; bottom: 3px;
-            background-color: white;
-            transition: .3s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 18px; width: 18px;
+            left: 4px; bottom: 3px;
+            background-color: #94a3b8;
+            transition: .4s cubic-bezier(0.18, 0.89, 0.35, 1.15);
             border-radius: 50%;
         }
-        input:checked + .slider { background-color: var(--accent); }
-        input:checked + .slider:before { transform: translateX(20px); }
+
+        input:checked + .slider {
+            background-color: rgba(56, 189, 248, 0.1);
+            border-color: var(--accent);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(22px);
+            background-color: var(--accent);
+            box-shadow: 0 0 12px var(--accent);
+        }
+
         .footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 16px;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 12px;
             align-items: center;
         }
-        .dev-info {
-            font-size: 0.7rem;
-            color: var(--text-dim);
-        }
-        .profile-btn {
-            background: transparent;
-            color: var(--accent);
+
+        .profile-link {
+            width: 100%;
+            text-align: center;
             text-decoration: none;
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 6px 12px;
-            border: 1px solid var(--accent);
-            border-radius: 6px;
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 10px;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid var(--border);
+            border-radius: 12px;
             transition: 0.2s;
         }
-        .profile-btn:hover {
+
+        .profile-link:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
             background: var(--accent);
             color: var(--bg);
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
+
+        .version {
+            font-size: 0.6rem;
+            color: #475569;
+            letter-spacing: 1px;
         }
     </style>
 </head>
 <body>
     <div class="header">
         <h2>KURO</h2>
-        <p>Zero-Hint Mode</p>
+        <div class="tagline">The Stealth Protocol</div>
     </div>
-    <div class="description">
-        Sharpen your intuition. By hiding tags and ratings, Kuro forces you to solve the problem, not the label.
-    </div>
-    <div class="toggle-container">
-        <span class="toggle-label">Stealth Mode</span>
-        <label class="switch">
-            <input type="checkbox" id="zenToggle">
-            <span class="slider"></span>
-        </label>
-    </div>
-    <div class="footer">
-        <div class="dev-info">
-            V 1.0 <br>
-            @sharkie1604
+
+    <div class="card">
+        <div class="toggle-row">
+            <span class="status-text">Stealth Mode</span>
+            <label class="switch">
+                <input type="checkbox" id="zenToggle">
+                <span class="slider"></span>
+            </label>
         </div>
-        <a href="https://codeforces.com/profile/sharkie1604" target="_blank" class="profile-btn">
-            VIEW PROFILE
-        </a>
     </div>
+
+    <div class="footer">
+        <a href="https://codeforces.com/profile/sharkie1604" target="_blank" class="profile-link">
+            DEV: @sharkie1604
+        </a>
+        <div class="version">BUILD v1.2.0-STABLE</div>
+    </div>
+
     <script src="popup.js"></script>
 </body>
 </html>
